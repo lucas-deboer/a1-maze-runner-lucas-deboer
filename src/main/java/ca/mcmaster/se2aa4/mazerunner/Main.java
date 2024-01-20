@@ -3,6 +3,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.module.Configuration;
+import java.nio.file.Path;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.commons.cli.CommandLine;
@@ -12,35 +15,33 @@ import org.apache.commons.cli.Options;
 //Parse exception
 public class Main {
 
-    private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        logger.info("** Starting Maze Runner");
-        try {
-            Options options = new Options();
-            options.addOption("i",true,"The file that contains the maze");
-            CommandLineParser parser = new DefaultParser();
-            CommandLine cmd = parser.parse(options, args);
-            String input = cmd.getOptionValue("i");
+        // reads in the arguments that the user passed in to configure project
+        Configuration config = Configuration.load(args);
 
-            logger.info("**** Reading the maze from file " + input);
-            BufferedReader reader = new BufferedReader(new FileReader(input));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        System.out.print("WALL ");
-                    } else if (line.charAt(idx) == ' ') {
-                        System.out.print("PASS ");
-                    }
-                }
-                System.out.print(System.lineSeparator());
-            }
-        } catch(Exception e) {
-            System.err.println("/!\\ An error has occured /!\\");
-        }
-        logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
-        logger.info("** End of MazeRunner");
+        // converts provided text file to a usable format
+        Maze theMaze = new Maze(config.file());
+
+        //find the starting point of the maze
+        theMaze.findStart();
+
+        // find a solution to the maze
+
+        //if no -p flag
+        MazePath path = new MazePath.findPath(theMaze);
+
+        //else if -p flag
+        //Read in user path
+        MazePath path = new MazePath(config.path());
+        //defactorize the path
+        path.defactorize();
+
+        //verify the user input path
+        MazePath.verfiy(theMaze, path);
+
+        // final outputs (i.e. either the correct path or if the provided path is valid
+        path.export();
+
     }
 }
