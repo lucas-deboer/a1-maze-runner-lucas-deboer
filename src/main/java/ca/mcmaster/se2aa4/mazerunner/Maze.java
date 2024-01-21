@@ -24,17 +24,15 @@ public class Maze {
                 for (idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
                         maze.get(l).add("W");
-                        System.out.print("WALL ");
                     } else if (line.charAt(idx) == ' ') {
                         maze.get(l).add("P");
-                        System.out.print("PASS ");
                     }
                 }
-                System.out.print(System.lineSeparator());
                 l++;
             }
             rows = l;
             colmns = idx;
+            
         }catch (Exception e){
             logger.error("/!\\ An error has occured /!\\");
             throw new RuntimeException(e);
@@ -48,7 +46,6 @@ public class Maze {
     }//find the opening on the right side of the maze
 
     public ArrayList traversal(MazePath path, ArrayList coords){
-
         return new ArrayList(){};
     }
 }
