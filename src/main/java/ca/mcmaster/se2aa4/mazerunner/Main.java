@@ -7,10 +7,9 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        logger.info("This is the business code.");
         // reads in the arguments that the user passed in to configure project
         Configuration config = Configuration.load(args);
-
+        System.out.println(config.file);
         // converts provided Maze text file to a usable format
         Maze theMaze = new Maze(config);
 

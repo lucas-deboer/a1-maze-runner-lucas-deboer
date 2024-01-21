@@ -1,7 +1,32 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+
 public class Configuration {
+    private static final Logger logger = LogManager.getLogger();
+    String file;
+    public Configuration (String f){
+        file = f;
+    }
     public static Configuration load(String[] args) {
-        return null;
-    } //take in the parameters passed by the user
+        //loading user parameters
+        try {
+            Options options = new Options();
+            options.addOption("i", true, "Input file that contains the maze");
+
+            CommandLineParser parser = new DefaultParser();
+            CommandLine cmd = parser.parse(options, args);
+            String input = cmd.getOptionValue("i");
+            return new Configuration(input);
+
+        } catch (Exception e) {
+            logger.error("/!\\ An error has occured -> invalid inputs /!\\");
+            throw new RuntimeException(e);
+        }
+    }
 }
