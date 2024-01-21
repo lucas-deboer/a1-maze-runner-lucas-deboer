@@ -23,5 +23,6 @@ public class MazePath {
     public void verifyPath(Maze theMaze, Configuration config) {
     }//check if the user input path is valid
     public void export() {
+        System.out.println(canPath);
     }//Display the end results (i.e. the valid path or if path is valid)
 }
