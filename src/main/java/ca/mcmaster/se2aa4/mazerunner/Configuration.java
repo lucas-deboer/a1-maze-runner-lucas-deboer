@@ -25,7 +25,7 @@ public class Configuration {
             return new Configuration(input);
 
         } catch (Exception e) {
-            logger.error("/!\\ An error has occured -> invalid inputs /!\\");
+            logger.error("/!\\ An error has occured /!\\");
             throw new RuntimeException(e);
         }
     }
