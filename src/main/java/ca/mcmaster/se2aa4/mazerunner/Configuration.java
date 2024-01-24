@@ -24,7 +24,7 @@ public class Configuration {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
             String input = cmd.getOptionValue("i");
-            return new Configuration(input,"4F3L9R");
+            return new Configuration(input,"4F3L9R2r3l6f");//use a generic case for now
 
         } catch (Exception e) {
             logger.error("/!\\ An error has occured /!\\");

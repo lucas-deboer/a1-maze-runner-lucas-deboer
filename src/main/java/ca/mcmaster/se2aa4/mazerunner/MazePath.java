@@ -1,7 +1,14 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+
 public class MazePath {
+     public enum Tiles {F,f,R,r,L,l}
     String canPath;
     public String toString(ArrayList<String> str){
         String string = str.toString();
@@ -27,7 +34,7 @@ public class MazePath {
         String str = config.path;
         for (int i = 0; i < str.length(); i++){
             count = 1;
-            if (str.charAt(i) != 'F' && str.charAt(i) != 'R' && str.charAt(i) != 'L'){
+            if (!CollectionUtils.containsAny(List.of(str.charAt(i)), EnumSet.allOf(Tiles.class))){
                 j = i+1;
                 while(Character.isDigit(str.charAt(j))){
                     j++;                    
@@ -39,7 +46,6 @@ public class MazePath {
         }
         
         canPath = toString(path);
-        System.out.println(canPath);
     }//ensure the user input path is in canonical form
     
     public void verifyPath(Maze theMaze, Configuration config) {
