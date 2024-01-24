@@ -7,11 +7,13 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 
+//change to a record
 public class Configuration {
     private static final Logger logger = LogManager.getLogger();
     String file;
-    public Configuration (String f){
-        file = f;
+    String path;
+    public Configuration (String f, String p){
+        file = f; path = p;
     }
     public static Configuration load(String[] args) {
         //loading user parameters
@@ -22,7 +24,7 @@ public class Configuration {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
             String input = cmd.getOptionValue("i");
-            return new Configuration(input);
+            return new Configuration(input,"");
 
         } catch (Exception e) {
             logger.error("/!\\ An error has occured /!\\");

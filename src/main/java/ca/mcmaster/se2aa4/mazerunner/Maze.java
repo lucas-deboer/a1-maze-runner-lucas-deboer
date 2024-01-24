@@ -44,8 +44,10 @@ public class Maze {
 
     public void findRightHole() {
     }//find the opening on the right side of the maze
-
+    //need to make a function that can deal with the direction/direction changes/
     public ArrayList traversal(MazePath path, ArrayList coords){
+        // a class that just follows the instructions, it does not record anything
         return new ArrayList(){};
     }
 }
+
