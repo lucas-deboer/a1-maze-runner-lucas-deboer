@@ -12,7 +12,7 @@ public class Main {
 
         //converts provided Maze text file to a usable format
         Maze theMaze = new Maze(config);
-
+        
         //find the left and right openings in the maze
         theMaze.findLeftHole();
         theMaze.findRightHole();

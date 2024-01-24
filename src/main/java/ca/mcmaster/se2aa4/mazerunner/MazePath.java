@@ -1,7 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
-
 public class MazePath {
     String canPath;
     public String toString(ArrayList<String> str){
@@ -38,7 +37,9 @@ public class MazePath {
             }
             for(int k = 0; k< count; k++){path.add(String.valueOf(str.charAt(i)));}
         }
+        
         canPath = toString(path);
+        System.out.println(canPath);
     }//ensure the user input path is in canonical form
     
     public void verifyPath(Maze theMaze, Configuration config) {
