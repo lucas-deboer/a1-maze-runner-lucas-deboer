@@ -37,12 +37,13 @@ public class Maze {
         }
     }
     public int[] add(int[] coords, int[] direction){
-        coords[0] += direction[0];
-        coords[1] += direction[1];
-        return coords;
+        int[] tmp = new int[2];
+        tmp[0] =  coords[0] + direction[0];
+        tmp[1] =  coords[1] + direction[1];
+        return tmp;
     }
     public String getTileValue(int[] position){
-        return maze.get(position[1]).get(position[2]);
+        return maze.get(position[1]).get(position[0]);
     }
     
     public int findLeftHole() {
