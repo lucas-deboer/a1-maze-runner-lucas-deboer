@@ -20,11 +20,13 @@ public class Configuration {
         try {
             Options options = new Options();
             options.addOption("i", true, "Input file that contains the maze");
+            options.addOption("p", true, "Path that user wants verified");
 
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
             String input = cmd.getOptionValue("i");
-            return new Configuration(input,"4F3L9R2r3l6f");//use a generic case for now
+            String path = cmd.getOptionValue("p");
+            return new Configuration(input,path);//use a generic case for now
 
         } catch (Exception e) {
             logger.error("/!\\ An error has occured /!\\");
