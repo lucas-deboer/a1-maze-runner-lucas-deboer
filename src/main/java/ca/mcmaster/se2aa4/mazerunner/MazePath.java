@@ -27,7 +27,7 @@ public class MazePath {
         //convert the arraylist to a string in canonical form
         canPath = toString(path);
     }//find a solution to the maze
-
+    
     public void defactorize(Configuration config){
         ArrayList<String> path = new ArrayList<>();
         int count,j;
@@ -48,6 +48,9 @@ public class MazePath {
     }//ensure the user input path is in canonical form
     
     public void verifyPath(Maze theMaze, Configuration config) {
+        //call theMaze.traversal facing east
+        //call theMaze.traversal facing west
+        //if one is correct, print correct. else print incorrect
     }//check if the user input path is valid
     public void export() {
         int j;

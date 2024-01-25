@@ -36,6 +36,11 @@ public class Maze {
             throw new RuntimeException(e);
         }
     }
+    public int[] add(int[] coords, int[] direction){
+        coords[0] += direction[0];
+        coords[1] += direction[1];
+        return coords;
+    }
     
     public int findLeftHole() {
         int holeAt = 1;
