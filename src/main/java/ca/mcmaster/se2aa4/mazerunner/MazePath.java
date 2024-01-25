@@ -44,13 +44,21 @@ public class MazePath {
             }
             for(int k = 0; k< count; k++){path.add(String.valueOf(str.charAt(i)));}
         }
-        
         canPath = toString(path);
     }//ensure the user input path is in canonical form
     
     public void verifyPath(Maze theMaze, Configuration config) {
     }//check if the user input path is valid
     public void export() {
-        System.out.println(canPath);
+        int j;
+        for(int i = 0; i < canPath.length(); i = i + j){
+            j = 1;
+            while ((i+j) < canPath.length() && canPath.charAt(i + j) == canPath.charAt(i)){
+                j++;
+            }
+            if (j != 1){System.out.print(j);}
+            System.out.print(canPath.charAt(i));
+        }
+        System.out.println();
     }//Display the end results (i.e. the valid path or if path is valid)
 }
