@@ -6,12 +6,12 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Maze {
     private static final Logger logger = LogManager.getLogger();
     ArrayList<ArrayList<String>> maze;
-    int rows;
     int colmns;
     public Maze(Configuration config) {
         maze = new ArrayList<ArrayList<String>>();
@@ -30,20 +30,25 @@ public class Maze {
                 }
                 l++;
             }
-            rows = l;
             colmns = idx;
-            
         }catch (Exception e){
             logger.error("/!\\ An error has occured /!\\");
             throw new RuntimeException(e);
         }
     }
 
-    public void findLeftHole() {
+    public int findLeftHole() {
+        int holeAt = 1;
+        while(!Objects.equals(maze.get(holeAt).getFirst(), "P")){holeAt++;}
+        return holeAt;
     }//find the opening on the left side of the maze
 
-    public void findRightHole() {
+    public int findRightHole() {
+        int holeAt = 1;
+        while(!Objects.equals(maze.get(holeAt).getLast(), "P")){holeAt++;}
+        return holeAt;
     }//find the opening on the right side of the maze
+    
     //need to make a function that can deal with the direction/direction changes/
     public ArrayList traversal(MazePath path, ArrayList coords){
         // a class that just follows the instructions, it does not record anything

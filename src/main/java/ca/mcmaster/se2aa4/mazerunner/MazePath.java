@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 
 public class MazePath {
-     public enum Tiles {F,f,R,r,L,l}
+    private enum Tiles {F,f,R,r,L,l}
     String canPath;
     public String toString(ArrayList<String> str){
         String string = str.toString();
@@ -20,7 +20,7 @@ public class MazePath {
     public void findPath(Maze theMaze) {
         int x = 0, y = 2;
         ArrayList<String> path = new ArrayList<>();
-        while (x != theMaze.colmns && theMaze.maze.get(y).get(x).equals("P")){
+        while (x != theMaze.colmns){
             path.add("F");
             x++;
         }
