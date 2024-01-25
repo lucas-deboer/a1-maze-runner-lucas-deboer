@@ -36,7 +36,7 @@ public class Maze {
             throw new RuntimeException(e);
         }
     }
-
+    
     public int findLeftHole() {
         int holeAt = 1;
         while(!Objects.equals(maze.get(holeAt).getFirst(), "P")){holeAt++;}
@@ -50,9 +50,17 @@ public class Maze {
     }//find the opening on the right side of the maze
     
     //need to make a function that can deal with the direction/direction changes/
-    public ArrayList traversal(MazePath path, ArrayList coords){
+    public int[] traversal(MazePath path, int[] coords, int[] currDirection){
+        for(int i = 0; i < path.canPath.length();i++){
+            if(path.canPath.charAt(i) == 'F'){
+                coords[0] += currDirection[0];
+                coords[1] += currDirection[1];
+            }else{
+                currDirection = Direction.changeDirection(currDirection, path.canPath.charAt(i));
+            }
+        }
+        return coords;
         // a class that just follows the instructions, it does not record anything
-        return new ArrayList(){};
     }
 }
 
