@@ -41,6 +41,9 @@ public class Maze {
         coords[1] += direction[1];
         return coords;
     }
+    public String getTileValue(int[] position){
+        return maze.get(position[1]).get(position[2]);
+    }
     
     public int findLeftHole() {
         int holeAt = 1;
