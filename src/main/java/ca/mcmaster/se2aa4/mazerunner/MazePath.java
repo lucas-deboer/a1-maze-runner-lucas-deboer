@@ -1,14 +1,11 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.collections4.CollectionUtils;
 
 public class MazePath {
-    private enum Tiles {F,f,R,r,L,l}
+    Character[] tiles = new Character[]{'F','f','L','l','R','r'};
     String canPath;
     public String toString(ArrayList<String> str){
         String string = str.toString();
@@ -40,7 +37,7 @@ public class MazePath {
         String str = config.path;
         for (int i = 0; i < str.length(); i++){
             count = 1;
-            if (!CollectionUtils.containsAny(List.of(str.charAt(i)), EnumSet.allOf(Tiles.class))){
+            if (!CollectionUtils.containsAny(List.of(str.charAt(i)), tiles)){
                 j = i+1;
                 while(Character.isDigit(str.charAt(j))){
                     j++;                    
@@ -53,10 +50,19 @@ public class MazePath {
         canPath = toString(path);
     }//ensure the user input path is in canonical form
     
-    public void verifyPath(Maze theMaze, Configuration config) {
-        //call theMaze.traversal facing east
-        //call theMaze.traversal facing west
-        //if one is correct, print correct. else print incorrect
+    public boolean verifyPath(Maze theMaze, Configuration config) {
+        boolean valid;
+        defactorize(config);
+        int[] start = new int[]{0,theMaze.findLeftHole()};
+        int[] end = new int[]{theMaze.colmns - 1,theMaze.findRightHole()};
+        int[] currDirection = new int[]{1,0};
+        valid = Arrays.equals(theMaze.traversal(this, start, currDirection), end);
+        if(!valid){
+            currDirection[0] = -1;
+            currDirection[1] = 0;
+            valid = Arrays.equals(theMaze.traversal(this, end, currDirection), start);
+        }
+        return valid;
     }//check if the user input path is valid
     public void export() {
         int j;

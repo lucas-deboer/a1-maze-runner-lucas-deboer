@@ -60,12 +60,14 @@ public class Maze {
     
     //need to make a function that can deal with the direction/direction changes/
     public int[] traversal(MazePath path, int[] coords, int[] currDirection){
-        for(int i = 0; i < path.canPath.length();i++){
+        for(int i = 0; i < path.canPath.length(); i++){
             if(path.canPath.charAt(i) == 'F'){
-                coords[0] += currDirection[0];
-                coords[1] += currDirection[1];
+                coords = add(coords,currDirection);
+                if (Objects.equals(this.getTileValue(coords), "W")){//if it moves into a wall, it is invalid
+                    return new int[]{-1,-1};
+                }
             }else{
-                currDirection = Direction.changeDirection(currDirection, path.canPath.charAt(i));
+                Direction.changeDirection(currDirection, path.canPath.charAt(i));
             }
         }
         return coords;

@@ -22,7 +22,7 @@ public class Main {
         path.findPath(theMaze);
 
         //verify the user input path
-        path.verifyPath(theMaze,config);
+        //System.out.println(path.verifyPath(theMaze,config));
 
         // final outputs (i.e. either the correct path or if the provided path is valid
         path.export();
