@@ -7,6 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 public class MazePath {
     Character[] tiles = new Character[]{'F','f','L','l','R','r'};
     String canPath;
+    Boolean valid = null;
     public String toString(ArrayList<String> str){
         String string = str.toString();
         string = string.replace("[","");
@@ -50,8 +51,7 @@ public class MazePath {
         canPath = toString(path);
     }//ensure the user input path is in canonical form
     
-    public boolean verifyPath(Maze theMaze, Configuration config) {
-        boolean valid;
+    public void verifyPath(Maze theMaze, Configuration config) {
         defactorize(config);
         int[] start = new int[]{0,theMaze.findLeftHole()};
         int[] end = new int[]{theMaze.colmns - 1,theMaze.findRightHole()};
@@ -62,18 +62,26 @@ public class MazePath {
             currDirection[1] = 0;
             valid = Arrays.equals(theMaze.traversal(this, end, currDirection), start);
         }
-        return valid;
     }//check if the user input path is valid
     public void export() {
-        int j;
-        for(int i = 0; i < canPath.length(); i = i + j){
-            j = 1;
-            while ((i+j) < canPath.length() && canPath.charAt(i + j) == canPath.charAt(i)){
-                j++;
+        if (valid == null){
+            int j;
+            for (int i = 0; i < canPath.length(); i = i + j) {
+                j = 1;
+                while ((i + j) < canPath.length() && canPath.charAt(i + j) == canPath.charAt(i)) {
+                    j++;
+                }
+                if (j != 1) {
+                    System.out.print(j);
+                }
+                System.out.print(canPath.charAt(i));
             }
-            if (j != 1){System.out.print(j);}
-            System.out.print(canPath.charAt(i));
+            System.out.println();
+        }else{
+            if (valid){ System.out.println("correct path");}
+            else{System.out.println("incorrect path");}
         }
-        System.out.println();
+       
+
     }//Display the end results (i.e. the valid path or if path is valid)
 }

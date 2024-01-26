@@ -17,13 +17,10 @@ public class Main {
         theMaze.findLeftHole();
         theMaze.findRightHole();
 
-        //find solution to the maze
         MazePath path = new MazePath();
-        path.findPath(theMaze);
-
-        //verify the user input path
-        //System.out.println(path.verifyPath(theMaze,config));
-
+        if(config.path != null){path.verifyPath(theMaze,config);}//find the solution to the maze
+        else{path.findPath(theMaze);}//or verify the input
+        
         // final outputs (i.e. either the correct path or if the provided path is valid
         path.export();
 
