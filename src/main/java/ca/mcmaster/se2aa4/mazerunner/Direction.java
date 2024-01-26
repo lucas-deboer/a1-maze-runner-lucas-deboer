@@ -6,14 +6,14 @@ import java.util.Objects;
 public class Direction {
     //Let the vectors be represented as [x,y], with possible values -1,1. 1 == down/right, -1 == left/up
     public static int[] changeDirection(int[] currDirection, char move){
-        if (Arrays.equals(currDirection,new int[]{0,1})){//faced North
+        if (Arrays.equals(currDirection,new int[]{0,-1})){//faced North
             if(move == 'R') {
                 currDirection[0] = 1;
             }else{
                 currDirection[0] = -1;
             }
             currDirection[1] = 0;
-        }else if (Arrays.equals(currDirection,new int[]{0,-1})) {//faced south
+        }else if (Arrays.equals(currDirection,new int[]{0,1})) {//faced south
             if(move == 'R') {
                 currDirection[0] = -1;
             }else{
@@ -37,21 +37,20 @@ public class Direction {
         }
         return currDirection;
     }
-    public static char getDirection(Maze theMaze, int[] currDirection, int[] position) {
-        char newDirec;
+    public static String getDirection(Maze theMaze, int[] currDirection, int[] position) {
+        String newDirec;
         int[] right = changeDirection(new int[]{currDirection[0],currDirection[1]}, 'R');
         int[] left = changeDirection(new int[]{currDirection[0],currDirection[1]}, 'L');
         if (Objects.equals(theMaze.getTileValue(theMaze.add(position, right)), "P")){//if the right position is open, travel there.
-            newDirec = 'R';
-            currDirection = right;
+            newDirec = "R";
         }else if (Objects.equals(theMaze.getTileValue(theMaze.add(position, currDirection)), "P")){//else continue forwards
-            newDirec = 'F';
+            newDirec = "F";
         }else if(Objects.equals(theMaze.getTileValue(theMaze.add(position, left)),"P")){//else go left
-            newDirec = 'R';
-            currDirection = left;
+            newDirec = "L";
         }else{//else dead end, reverse direction
-            newDirec = 'R';
-            currDirection = right;
+            newDirec = "RR";
+            currDirection[0] *= -1;
+            currDirection[1] *= -1;
         }
         return newDirec;
     }

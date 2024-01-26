@@ -18,11 +18,17 @@ public class MazePath {
         return string;
     }
     public void findPath(Maze theMaze) {
-        int x = 0, y = 2;
+        int[] pos = new int[]{0,theMaze.findLeftHole()};
+        int[] direction = new int[]{1,0};
         ArrayList<String> path = new ArrayList<>();
-        while (x != theMaze.colmns){
-            path.add("F");
-            x++;
+        while (pos[0] < theMaze.colmns - 1){
+            String newDirec = Direction.getDirection(theMaze,direction,pos);
+            path.add(newDirec);
+            if (newDirec.equals("R") || newDirec.equals("L")){
+                Direction.changeDirection(direction,newDirec.charAt(0));
+            }
+            if(!newDirec.equals("F")){path.add("F");}
+            pos = theMaze.add(pos,direction);
         }
         //convert the arraylist to a string in canonical form
         canPath = toString(path);
