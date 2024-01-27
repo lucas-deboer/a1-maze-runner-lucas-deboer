@@ -20,7 +20,7 @@ public class Main {
             // final outputs (i.e. either the correct path or if the provided path is valid
 
             path.export();
-        }catch (IndexOutOfBoundsException f){ //catch if the path goes "outside" the maze
+        }catch (MazePathOutOfRange e){ //catch if the path goes "outside" the maze
             System.err.println("incorrect path");
         }catch (Exception e){
             System.out.println("ERROR");

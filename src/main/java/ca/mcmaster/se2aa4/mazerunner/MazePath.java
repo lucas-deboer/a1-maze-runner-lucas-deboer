@@ -53,7 +53,7 @@ public class MazePath {
         canPath = toString(path);
     }//ensure the user input path is in canonical form
     
-    public void verifyPath(Maze theMaze, Configuration config){
+    public void verifyPath(Maze theMaze, Configuration config) throws MazePathOutOfRange {
         defactorize(config);
         int[] start = new int[]{0,theMaze.findLeftHole()};
         int[] end = new int[]{theMaze.colmns - 1,theMaze.findRightHole()};

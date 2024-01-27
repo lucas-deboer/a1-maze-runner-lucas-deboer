@@ -59,10 +59,13 @@ public class Maze {
     }//find the opening on the right side of the maze
     
     //need to make a function that can deal with the direction/direction changes/
-    public int[] traversal(MazePath path, int[] coords, int[] currDirection){
+    public int[] traversal(MazePath path, int[] coords, int[] currDirection) throws MazePathOutOfRange{
         for(int i = 0; i < path.canPath.length(); i++){
             if(path.canPath.charAt(i) == 'F'){
                 coords = add(coords,currDirection);
+                if (coords[0] == colmns || coords[0] < 0){
+                    throw new MazePathOutOfRange("Path goes outside the maze");
+                }
                 if (Objects.equals(this.getTileValue(coords), "W")){//if it moves into a wall, it is invalid
                     return new int[]{-1,-1};
                 }
