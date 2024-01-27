@@ -5,7 +5,7 @@ import java.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 
 public class MazePath {
-    Character[] tiles = new Character[]{'F','f','L','l','R','r',' '};
+    Character[] tiles = new Character[]{'F','f','L','l','R','r',' ','\n'};
     String canPath;
     Boolean valid = null;
     public String toString(ArrayList<String> str){
@@ -47,13 +47,13 @@ public class MazePath {
                 i = j;
             }
             for(int k = 0; k < count; k++){
-                if (str.charAt(i)!= ' ') path.add(String.valueOf(str.charAt(i)).toUpperCase());
+                if (str.charAt(i)!= ' ' && str.charAt(i) != '\n') path.add(String.valueOf(str.charAt(i)).toUpperCase());
             }
         }
         canPath = toString(path);
     }//ensure the user input path is in canonical form
     
-    public void verifyPath(Maze theMaze, Configuration config) {
+    public void verifyPath(Maze theMaze, Configuration config){
         defactorize(config);
         int[] start = new int[]{0,theMaze.findLeftHole()};
         int[] end = new int[]{theMaze.colmns - 1,theMaze.findRightHole()};
