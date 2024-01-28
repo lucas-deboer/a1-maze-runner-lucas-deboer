@@ -5,44 +5,27 @@ import java.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 
 public class MazePath {
-    Character[] tiles = new Character[]{'F','f','L','l','R','r',' ','\n'};
-    String canPath;
-    Boolean valid = null;
-    public String toString(ArrayList<String> str){
+    private final static Character[] TILES = new Character[]{'F','f','L','l','R','r',' ','\n'};
+    private String canPath;
+    private Boolean valid = null;
+    private int length;
+    private static String toString(ArrayList<String> str){
         String string = str.toString();
         string = string.replace("[","");
         string = string.replace("]","");
         string = string.replace(", ","");
         return string;
     }
-    public void findPath(Maze theMaze) {
-        int[] pos = new int[]{0,theMaze.findLeftHole()};
-        int[] direction = new int[]{1,0};
-        ArrayList<String> path = new ArrayList<>();
-        while (pos[0] < theMaze.colmns - 1){
-            String newDirec = Direction.getDirection(theMaze,direction,pos);
-            path.add(newDirec);
-            if (newDirec.equals("R") || newDirec.equals("L")){
-                Direction.changeDirection(direction,newDirec.charAt(0));
-            }
-            if(!newDirec.equals("F")){path.add("F");}
-            pos = theMaze.add(pos,direction);
-        }
-        //convert the arraylist to a string in canonical form
-        canPath = toString(path);
-    }//find a solution to the maze
-    
-    public void defactorize(Configuration config){
-        
+    private void defactorize(Configuration config){
         ArrayList<String> path = new ArrayList<>();
         int count,j;
-        String str = config.path;
+        String str = config.path();
         for (int i = 0; i < str.length(); i++){
             count = 1;
-            if (!CollectionUtils.containsAny(List.of(str.charAt(i)), tiles)){
+            if (!CollectionUtils.containsAny(List.of(str.charAt(i)), TILES)){
                 j = i+1;
                 while(Character.isDigit(str.charAt(j))){
-                    j++;                    
+                    j++;
                 }
                 count =  Integer.parseInt(str.substring(i,j));
                 while(str.charAt(j) == ' ' || str.charAt(j) == '\n')j++;
@@ -53,18 +36,41 @@ public class MazePath {
             }
         }
         canPath = toString(path);
+        length = canPath.length();
     }//ensure the user input path is in canonical form
     
+    public int getPathLength(){return length;}
+    public char getPathCharacter(int i){return canPath.charAt(i);}
+
+    public void findPath(Maze theMaze) {
+        int[] pos = new int[]{0,theMaze.getLeftHole()};
+        Movement.DIRECTION direction = Movement.DIRECTION.EAST;
+        ArrayList<String> path = new ArrayList<>();
+        
+        while (pos[0] < theMaze.getColmns() - 1){
+            String newDirec = Movement.getDirection(theMaze,direction,pos);
+            path.add(newDirec);
+            if (newDirec.equals("RR")){
+                direction = Movement.changeDirection(direction,newDirec.charAt(0));
+                direction = Movement.changeDirection(direction,newDirec.charAt(0));
+            }else if (newDirec.equals("R") || newDirec.equals("L")){
+                direction = Movement.changeDirection(direction,newDirec.charAt(0));
+            }
+            if(!newDirec.equals("F")){path.add("F");}
+            pos = Movement.move(pos,direction);
+        }
+        //convert the arraylist to a string in canonical form
+        canPath = toString(path);
+    }//find a solution to the maze
     public void verifyPath(Maze theMaze, Configuration config) throws MazePathOutOfRange {
         defactorize(config);
-        int[] start = new int[]{0,theMaze.findLeftHole()};
-        int[] end = new int[]{theMaze.colmns - 1,theMaze.findRightHole()};
-        int[] currDirection = new int[]{1,0};
-        valid = Arrays.equals(theMaze.traversal(this, start, currDirection), end);
+        int[] start = new int[]{0,theMaze.getLeftHole()};
+        int[] end = new int[]{theMaze.getColmns() - 1,theMaze.getRightHole()};
+        Movement.DIRECTION currDirection = Movement.DIRECTION.EAST;
+        valid = Arrays.equals(Movement.traversal(theMaze, this, start, currDirection), end);
         if(!valid){
-            currDirection[0] = -1;
-            currDirection[1] = 0;
-            valid = Arrays.equals(theMaze.traversal(this, end, currDirection), start);
+            currDirection = Movement.DIRECTION.WEST;
+            valid = Arrays.equals(Movement.traversal(theMaze, this, end, currDirection), start);
         }
     }//check if the user input path is valid
     public void export() {
@@ -85,7 +91,5 @@ public class MazePath {
             if (valid){ System.out.println("correct path");}
             else{System.out.println("incorrect path");}
         }
-       
-
-    }//Display the end results (i.e. the valid path or if path is valid)
+    }
 }

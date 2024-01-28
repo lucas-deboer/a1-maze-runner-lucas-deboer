@@ -11,16 +11,19 @@ import java.util.Objects;
 
 public class Maze {
     private static final Logger logger = LogManager.getLogger();
-    ArrayList<ArrayList<String>> maze;
-    int colmns;
+    private final ArrayList<ArrayList<String>> maze;
+    private final int colmns;
+    private int leftOpeningRow;
+    private int rightOpeningRow;
+
     public Maze(Configuration config) {
-        maze = new ArrayList<ArrayList<String>>();
+        maze = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(config.file));
+            BufferedReader reader = new BufferedReader(new FileReader(config.file()));
             int l = 0, idx = 0;
             String line;
             while ((line = reader.readLine()) != null) {
-                maze.add(new ArrayList<String>());
+                maze.add(new ArrayList<>());
                 for (idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
                         maze.get(l).add("W");
@@ -31,50 +34,40 @@ public class Maze {
                 l++;
             }
             colmns = idx;
-        }catch (Exception e){
-            logger.error("/!\\ An error has occured /!\\");
+            findLeftHoles();
+            findRightHoles();
+        } catch (Exception e) {
+            logger.error("/!\\ An error has occurred /!\\");
             throw new RuntimeException(e);
         }
     }
-    public int[] add(int[] coords, int[] direction){
-        int[] tmp = new int[2];
-        tmp[0] =  coords[0] + direction[0];
-        tmp[1] =  coords[1] + direction[1];
-        return tmp;
-    }
-    public String getTileValue(int[] position){
+
+    private void findLeftHoles() {
+        int holeAt = 1;
+        while (!Objects.equals(maze.get(holeAt).getFirst(), "P")) {
+            holeAt++;
+        }
+        leftOpeningRow = holeAt;
+    }//find the opening on the left side of the maze
+    private void findRightHoles() {
+        int holeAt = 1;
+        while (!Objects.equals(maze.get(holeAt).getLast(), "P")) {
+            holeAt++;
+        }
+        rightOpeningRow = holeAt;
+    }//find the opening on the right side of the maze
+
+    // all the getters
+    public String getTileValue(int[] position) {
         return maze.get(position[1]).get(position[0]);
     }
-    
-    public int findLeftHole() {
-        int holeAt = 1;
-        while(!Objects.equals(maze.get(holeAt).getFirst(), "P")){holeAt++;}
-        return holeAt;
-    }//find the opening on the left side of the maze
-
-    public int findRightHole() {
-        int holeAt = 1;
-        while(!Objects.equals(maze.get(holeAt).getLast(), "P")){holeAt++;}
-        return holeAt;
-    }//find the opening on the right side of the maze
-    
-    //need to make a function that can deal with the direction/direction changes/
-    public int[] traversal(MazePath path, int[] coords, int[] currDirection) throws MazePathOutOfRange{
-        for(int i = 0; i < path.canPath.length(); i++){
-            if(path.canPath.charAt(i) == 'F'){
-                coords = add(coords,currDirection);
-                if (coords[0] == colmns || coords[0] < 0){
-                    throw new MazePathOutOfRange("Path goes outside the maze");
-                }
-                if (Objects.equals(this.getTileValue(coords), "W")){//if it moves into a wall, it is invalid
-                    return new int[]{-1,-1};
-                }
-            }else{
-                Direction.changeDirection(currDirection, path.canPath.charAt(i));
-            }
-        }
-        return coords;
-        // a class that just follows the instructions, it does not record anything
+    public int getColmns() {
+        return colmns;
+    }
+    public int getLeftHole() {
+        return leftOpeningRow;
+    }
+    public int getRightHole() {
+        return rightOpeningRow;
     }
 }
-
