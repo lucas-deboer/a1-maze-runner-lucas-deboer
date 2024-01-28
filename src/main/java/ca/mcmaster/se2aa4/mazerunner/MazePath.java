@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class MazePath {
     private static final Logger logger = LogManager.getLogger();
     private final static Character[] VALIDINPUTS = new Character[]{'F','f','L','l','R','r',' ','\n'};
-    private String canPath;
+    private String canPath = "";
     private Boolean valid = null;
     private int length;
     private static String toString(ArrayList<String> str){
