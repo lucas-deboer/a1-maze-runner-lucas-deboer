@@ -7,7 +7,6 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 
-//change to a record
 public record Configuration(String file, String path) {
     private static final Logger logger = LogManager.getLogger();
     public static Configuration load(String[] args) {
@@ -19,6 +18,10 @@ public record Configuration(String file, String path) {
             CommandLine cmd = parser.parse(options, args);
             String input = cmd.getOptionValue("i");
             String path = cmd.getOptionValue("p");
+            
+            if (!cmd.getArgList().isEmpty()){
+                throw new IllegalArgumentException();
+            }
             return new Configuration(input,path);
         } catch (Exception e) {
             logger.error("/!\\ An error has occurred /!\\");

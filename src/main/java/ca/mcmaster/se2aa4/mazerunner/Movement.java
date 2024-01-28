@@ -4,19 +4,6 @@ import java.util.Objects;
 
 public class Movement {
     //Let the vectors be represented as [x,y], with possible values -1,1. 1 == down/right, -1 == left/up
-    public enum DIRECTION {
-        NORTH(new int[]{0,-1}), 
-        EAST(new int[]{1,0}), 
-        SOUTH(new int[]{0,1}), 
-        WEST(new int[]{-1,0});
-        private final int[] value;
-        DIRECTION(int[] pair){
-            this.value = pair;
-        }
-        public int[] getValue() {
-            return value;
-        }
-    }
     public static int[] move(int[] coords, DIRECTION d){
         int[] tmp = new int[2];
         tmp[0] =  coords[0] + d.getValue()[0];
@@ -24,19 +11,20 @@ public class Movement {
         return tmp;
     }
     public static DIRECTION changeDirection(DIRECTION currDirection, char move){
-        if (currDirection == DIRECTION.NORTH){//faced North
+        //determines new Direction based on current direction and the next move.
+        if (currDirection == DIRECTION.NORTH){
             if(move == 'R') {
                 currDirection = DIRECTION.EAST;
             }else{
                 currDirection = DIRECTION.WEST;
             }
-        }else if (currDirection == DIRECTION.SOUTH) {//faced south
+        }else if (currDirection == DIRECTION.SOUTH) {
             if(move == 'R') {
                 currDirection = DIRECTION.WEST;
             }else{
                 currDirection = DIRECTION.EAST;
             }
-        }else if (currDirection == DIRECTION.EAST) {//faced east
+        }else if (currDirection == DIRECTION.EAST) {
             if(move == 'R') {
                 currDirection = DIRECTION.SOUTH;
             }else{
@@ -53,6 +41,7 @@ public class Movement {
     }
     
     public static String getDirection(Maze theMaze, DIRECTION currDirection, int[] position) {
+        //determine which way to move. Decided using the right hand method.
         String newDirec;
         DIRECTION right = changeDirection(currDirection, 'R');
         DIRECTION left = changeDirection(currDirection, 'L');
@@ -69,6 +58,7 @@ public class Movement {
     }
     //need to make a function that can deal with the direction/direction changes/
     public static int[] traversal(Maze theMaze, MazePath path, int[] coords, DIRECTION currDirection) throws MazePathOutOfRange{
+        //traverses the maze and returns the ending coordinates
         for(int i = 0; i < path.getPathLength(); i++){
             if(path.getPathCharacter(i) == 'F'){
                 coords = Movement.move(coords,currDirection);
