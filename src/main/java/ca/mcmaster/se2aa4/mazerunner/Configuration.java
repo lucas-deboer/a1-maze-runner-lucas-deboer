@@ -7,25 +7,24 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 
-public class Configuration {
+public record Configuration(String file, String path) {
     private static final Logger logger = LogManager.getLogger();
-    String file;
-    public Configuration (String f){
-        file = f;
-    }
     public static Configuration load(String[] args) {
-        //loading user parameters
+        Options options = new Options();
+        options.addOption("i", true, "Input file that contains the maze");
+        options.addOption("p", true, "Path that user wants verified");
+        CommandLineParser parser = new DefaultParser();
         try {
-            Options options = new Options();
-            options.addOption("i", true, "Input file that contains the maze");
-
-            CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
             String input = cmd.getOptionValue("i");
-            return new Configuration(input);
-
+            String path = cmd.getOptionValue("p");
+            
+            if (!cmd.getArgList().isEmpty()){
+                throw new IllegalArgumentException();
+            }
+            return new Configuration(input,path);
         } catch (Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            logger.error("/!\\ An error has occurred /!\\");
             throw new RuntimeException(e);
         }
     }

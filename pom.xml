@@ -27,6 +27,13 @@
       <artifactId>commons-cli</artifactId>
       <version>1.6.0</version>
     </dependency>
+    <!-- To use contains any -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
+    </dependency>
+    
     <!-- To support Logging through Log4J-->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

@@ -7,25 +7,22 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        //reads in the arguments that the user passed in to configure project
-        Configuration config = Configuration.load(args);
-
-        //converts provided Maze text file to a usable format
-        Maze theMaze = new Maze(config);
-
-        //find the left and right openings in the maze
-        theMaze.findLeftHole();
-        theMaze.findRightHole();
-
-        //find solution to the maze
-        MazePath path = new MazePath();
-        path.findPath(theMaze);
-
-        //verify the user input path
-        path.verifyPath(theMaze,config);
-
-        // final outputs (i.e. either the correct path or if the provided path is valid
-        path.export();
+        try {
+            logger.info("Maze analysis beginning.");
+            Configuration config = Configuration.load(args);
+            Maze theMaze = new Maze(config);
+            MazePath path = new MazePath();
+            
+            if (config.path() != null) {path.verifyPath(theMaze, config);}
+            else {path.findPath(theMaze);}
+            
+            path.export(); //outputs the path or the validity of path
+            logger.info("Maze analysis complete.");
+        }catch (MazePathOutOfRange e){ //catch if the path goes "outside" the maze
+            System.out.println("incorrect path");
+        }catch (Exception e){
+            logger.error("/!\\ An error has occurred /!\\");
+        }
 
     }
 }
