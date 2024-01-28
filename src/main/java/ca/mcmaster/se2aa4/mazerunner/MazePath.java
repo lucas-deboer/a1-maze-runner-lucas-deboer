@@ -33,6 +33,7 @@ public class MazePath {
     }//find a solution to the maze
     
     public void defactorize(Configuration config){
+        
         ArrayList<String> path = new ArrayList<>();
         int count,j;
         String str = config.path;
@@ -44,6 +45,7 @@ public class MazePath {
                     j++;                    
                 }
                 count =  Integer.parseInt(str.substring(i,j));
+                while(str.charAt(j) == ' ' || str.charAt(j) == '\n')j++;
                 i = j;
             }
             for(int k = 0; k < count; k++){
