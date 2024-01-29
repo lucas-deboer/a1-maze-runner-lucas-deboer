@@ -6,7 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MazePath {
+public class MazePath implements Path<String>{
     private static final Logger logger = LogManager.getLogger();
     private final static Character[] VALIDINPUTS = new Character[]{'F','f','L','l','R','r',' ','\n'};
     private String canPath = "";
@@ -43,10 +43,31 @@ public class MazePath {
         length = canPath.length();
         logger.info("Conversion complete.");
     }//ensure the user input path is in canonical form
-    
-    public int getPathLength(){return length;}
+    @Override
+    public Integer getPathLength(){return length;}
+    @Override
     public char getPathCharacter(int i){return canPath.charAt(i);}
-
+    @Override
+    public void export() {
+        if (valid == null){ //output if the program found a path
+            int j;
+            for (int i = 0; i < canPath.length(); i = i + j) {//print path in factorized form
+                j = 1;
+                while ((i + j) < canPath.length() && canPath.charAt(i + j) == canPath.charAt(i)) {
+                    j++;
+                }
+                if (j != 1) {
+                    System.out.print(j);
+                }
+                System.out.print(canPath.charAt(i));
+            }
+            System.out.println();
+        }else{ //output if the program verified a path
+            if (valid){ System.out.println("correct path");}
+            else{System.out.println("incorrect path");}
+        }
+    }
+    @Override
     public void findPath(Maze theMaze) {
         logger.info("Finding path through the maze.");
         int[] pos = new int[]{0,theMaze.getLeftHole()};
@@ -83,23 +104,4 @@ public class MazePath {
         }
         logger.info("Validation process complete.");
     }//check if the user input path is valid
-    public void export() {
-        if (valid == null){ //output if the program found a path
-            int j;
-            for (int i = 0; i < canPath.length(); i = i + j) {//print path in factorized form
-                j = 1;
-                while ((i + j) < canPath.length() && canPath.charAt(i + j) == canPath.charAt(i)) {
-                    j++;
-                }
-                if (j != 1) {
-                    System.out.print(j);
-                }
-                System.out.print(canPath.charAt(i));
-            }
-            System.out.println();
-        }else{ //output if the program verified a path
-            if (valid){ System.out.println("correct path");}
-            else{System.out.println("incorrect path");}
-        }
-    }
 }
